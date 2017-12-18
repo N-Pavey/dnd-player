@@ -21,6 +21,7 @@ def diceRoller():
 	    try:
 	    	command = int(selection)
 	    	if command == 1:
+	    		print("roll20")
 	    		die = 20
 	    	elif command == 2:
 	    		die = 12
@@ -37,19 +38,39 @@ def diceRoller():
 	    	elif command == 8:
 	    		print("exiting")
 	    		goodSelection = True
-
+	    	print("lets do this")
 	    	if goodSelection == False:
+	    		print("roll")
 	    		roll(die)
+	    		print("done rollin")
 
 	    except:
 	    	goodSelection = False
 
 def roll(die):
+	print("in roll die")
 	done = False
 	rolls = []
 	while done == False:
+		print("in loop")
 		num = random.randint(1,die)
-		done == True
+		print("random number got " + num)
+		rolls.append(num)
+		response = "ROLLED: "
+		total = 0
+		for number in rolls:
+			response += number + " "
+			total += number
+		if len(rolls) > 1:
+			response += " - TOTAL: " + total
+		print(response)
+		properAnswer = False
+		again = ""
+		properAnswers = ["y", "n", "yes", "no"]
+		while again.lower() not in properAnswers:
+			again = input("ROLL AGAIN? Y/N")
+		if again.lower() in ["y", "yes"]:
+		    done == True
 
 def main():
 	print("+++++++++++++++++++++++++++++++")
@@ -84,7 +105,7 @@ def mainMenu():
 	    	elif command == 3:
 	    		print("edit character")
 	    	elif command == 4:
-	    		print("dice roller")
+	    		diceRoller()
 	    	elif command == 5:
 	    		print("exiting")
 	    		goodSelection = True
