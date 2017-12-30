@@ -1,5 +1,6 @@
 import sys
 import random
+import os
 
 def diceRoller():
 	goodSelection = False
@@ -86,6 +87,54 @@ def rollSome(die, num, mod=0):
 	result += " - TOTAL: " + str(total)
 	print(result)
 
+def loadCharacterSelect():
+	print(os.path.isfile("characterList.csv"))
+	if os.path.isfile("characterList.csv"):
+		file = open("characterList.csv", "r")
+	else:
+		file = open("characterList.csv", "w+")
+	charArray = file.readlines()
+	characters = []
+	for char in charArray:
+		if char.rstrip("\n") != "":
+			characters.append(char.rstrip("\n"))
+	return characters
+
+def characterSelectMenu(characterArray):
+	if characterArray != []:
+		characterNumber = 0
+		print("+++++++++++++++++++++++++++++++")
+		print("-------CHARACTER SELECT--------")
+		print("+++++++++++++++++++++++++++++++")
+		for c in characterArray:
+			characterNumber += 1
+			print(str(characterNumber) + ": " + c)
+		print("+++++++++++++++++++++++++++++++")
+		goodSelect = False
+		selection = ""
+		while goodSelect == False:
+			numberSelection = input("CHOOSE A CHARACTER: ")
+			try:
+				sn = int(numberSelection)
+				selection = characterArray[sn-1]
+				goodSelect = True
+			except Exception as e:
+				print("USE NUMERIC VALUE THAT IS SHOWN")
+		return selection
+	else:
+		print("CURRENTLY NO CHARACTERS. \nYOU CAN CREATE CHARACTERS FROM THE MAIN MENU")
+		return None
+
+
+def playWithCharacter():
+	characters = loadCharacterSelect()
+	print(characters)
+	characterName = characterSelectMenu(characters)
+	if characterName != None:
+		print(characterName)
+	else:
+		print("RETURNING TO MAIN MENU")
+
 
 
 def main():
@@ -119,7 +168,7 @@ def mainMenu():
 			if command == 1:
 				print("creating character")
 			elif command == 2:
-				print("load character")
+				playWithCharacter()
 			elif command == 3:
 				print("edit character")
 			elif command == 4:
