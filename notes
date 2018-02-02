@@ -1,0 +1,46 @@
+Character Creation
+	choose a race
+		ability score increase
+		age
+		alignemnt
+		size
+		speed
+		languages
+		subrace
+	Choose a Class
+	roll ability scores
+	equipment
+
+	Dwarves
+		Ability Score: Con +2
+		size: medium
+		speed: 25
+		vision: Darkvision 60
+		Abilities/Traits: Dwarven Resiliance, Stonecunning
+		Proficiencies: battleaxe, handaxw, throwing hammer, warhammer, smiths tools, brewers supplies, mason's tools
+		Languages: Common, Dwarvish
+
+		Subraces
+			Hill Dwarf
+				Ability Score: Wis +1
+				HP +1 for every level
+			Mounain Dwarf
+				Ability Score: str +2
+				proficiencies: light and medium armor
+
+		Elves
+		Ability Score: dex +2
+		size: medium
+		speed: 25
+		vision: Darkvision 60
+		Abilities/Traits: Fey Ancestry, Trance
+		Proficiencies: perception,
+		Languages: Common, Elvish
+
+		Subraces
+			High Elf
+				Ability Score: int +1
+				proficiencies: longsword, shortsword, shortbow, longbow
+				Cantrip: choose 1
+				Languages: pick one
+
