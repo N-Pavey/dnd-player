@@ -33,7 +33,7 @@ def enterText(message):
         print("2: QUIT")
         userInput = raw_input("ENTER CHOICE: ")
         if userInput.strip() == "1":
-            return "saveandquit"
+            return  "saveandquit"
         if userInput.strip() == "2":
             return "quit"
         if userInput.strip() == "":

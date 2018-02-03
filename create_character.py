@@ -38,6 +38,38 @@ def race(character):
 
 def setRaceManual(character):
     print("setRaceManual")
+    char = character
+    char["state"] = "setRaceManual"
+    url = "http://dnd5eapi.co/api/races/" + str(char["raceindex"])
+    r = requests.get(url)
+    rjson = r.json()
+    if str(rjson["name"]) != str(char["race"]):
+        print("Api race {} does not match choosen race {}. Saving and quitting").format(str(rjson["name"]), str(char["race"]) )
+        return char, False
+    else:
+        value = ""
+        char["manualState"] = "begin"
+        lastState = ""
+        while value != "saveandquit" and value != "quit":
+            if char["manualState"] == "begin":
+                char["age"], value = utils.enterText("ENTER YOUR AGE")
+                lastState = "begin"
+                char["manualState"] = "language"
+            if char["manualState"] == "language":
+                if rjson["language_options"]:
+                    ljson = rjson["language_options"]["from"]
+                    if str(ljson[0]["name"]) == "Any":
+                        l = requests.get("http://www.dnd5eapi.co/api/languages")
+                        lj = l.json()
+                        ljson = lj["results"]
+                    languages = []
+
+
+        char["manualState"] = lastState
+
+                
+        
+
 
 
 def setRaceAuto(character):
