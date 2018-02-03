@@ -17,8 +17,7 @@ def playWithCharacter():
 		print("RETURNING TO MAIN MENU")
 
 def createCharacter():
-	return
-	# create.start()
+	create.start()
 
 
 
@@ -51,7 +50,7 @@ def mainMenu():
 		try:
 			command = int(selection)
 			if command == 1:
-				print("creating character")
+				createCharacter()
 			elif command == 2:
 				playWithCharacter()
 			elif command == 3:
