@@ -1,27 +1,61 @@
-def choiceMenu(choices):
-    goodselection = False
-    while goodselection == False:
-        choiceNumber = 0
-        print("+++++++++++++++++++++++++++++++")
-        for c in choices:
-            choiceNumber+=1
-            print(str(choiceNumber) + ": " + c)
-        snq = choiceNumber + 1
-        q = choiceNumber + 2
-        print(str(snq) + ": SAVE AND QUIT")
-        print(str(q) + ": QUIT")
-        selection = input("ENTER A NUMERIC VALUE")
-        try:
-            sn = int(selection)
-            if sn == snq:
-                return "saveandquit"
-            if sn == q:
-                return "quit"
-            choice = choices[sn-1]
-            goodselection = True
-        except:
-            print("PLEASE SELECT A SHOWN NUMERIC VALUE")
-    return choice
+#import utils
+
+
+
+
+
+def name(character):
+    print("character")
+    return character
+
+def race(character):
+    print("character")
+    return character
+
+def addClass(character):
+    print("add class")
+    return character
+
+def abilities(character):
+    print("abilities")
+    return character
+
+def equipment(character):
+    print("equipment")
+    return character
+
+
+
+states = ["name", "race" "class", "abilities", "equipment"]
+    
+stages = {
+    "name": name,
+    "race": race,
+    "class": addClass,
+    "abilities": abilities,
+    "equipment": equipment
+    }
+
+def start():
+    # Name
+    # race
+    # class
+    # ability scores
+    # equipment
+    character = {}
+    for s in states:
+        character["state"] = s
+        value = stages.get(s)(character)
+        if value == "saveandquit":
+            return
+        if value == "quit":
+            return
+        else:
+            character = value
+
+
+
+
         
         
     

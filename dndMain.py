@@ -17,7 +17,8 @@ def playWithCharacter():
 		print("RETURNING TO MAIN MENU")
 
 def createCharacter():
-	create.start()
+	return
+	# create.start()
 
 
 
