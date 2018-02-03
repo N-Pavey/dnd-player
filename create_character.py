@@ -27,29 +27,49 @@ def race(character):
         char["race"] = race
         char["raceindex"] = index
         print(char)
-        char, value = setRace(char) 
+        char, success = setRaceAuto(char)
+        if success != True:
+            print("failed race auto set. Saving and quitting")
+            return char, "saveandquit"
+        else:
+            char, success = setRaceManual(char)
     else:
         return char, race
 
-def setRace(character):
-    print("setRace")
+def setRaceManual(character):
+    print("setRaceManual")
+
+
+def setRaceAuto(character):
+    print("setRaceAuto")
     char = character
-    char["state"] = "setRace"
+    char["state"] = "setRaceAuto"
     print("YOU CHOOSE: " + str(char["race"]).upper())
     url = "http://dnd5eapi.co/api/races/" + str(char["raceindex"])
     r = requests.get(url)
     rjson = r.json()
     if str(rjson["name"]) != str(char["race"]):
-        print("Api race does not match choosen race. Saving and quitting")
-        return char, "saveandquit"
+        print("Api race {} does not match choosen race {}. Saving and quitting").format(str(rjson["name"]), str(char["race"]) )
+        return char, False
     else:
         char["abilities"] = {}
         for i in range (0, len(abilitiyScores)):
             char["abilities"][abilitiyScores[i]] = rjson["ability_bonuses"][i]
         char["size"] = str(rjson["size"])
+        char["speed"] = str(rjson["speed"])
         char["proficiencies"] = []
         for p in rjson["starting_proficiencies"]:
-            char["proficiencies"].append(p["name"])
+            char["proficiencies"].append(str(p["name"]))
+        char["languages"] = []
+        for p in rjson["languages"]:
+            char["languages"].append(str(p["name"]))
+        char["traits"] = []
+        for p in rjson["traits"]:
+            char["traits"].append(str(p["name"]))
+        print(char)
+        return char, True
+
+
 
         
             
@@ -72,12 +92,13 @@ def equipment(character):
 
 
 
-states = ["name", "race", "setRace" "class", "abilities", "equipment"]
+states = ("name", "race", "setRaceAuto", "setRaceManual", "class", "abilities", "equipment")
     
 stages = {
     "name": name,
     "race": race,
-    "setRace": setRace,
+    "setRaceAuto": setRaceAuto,
+    "setRaceManual": setRaceManual
     "class": addClass,
     "abilities": abilities,
     "equipment": equipment

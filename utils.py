@@ -14,7 +14,6 @@ def choiceMenu(choices, message):
         try:
             selection = input("ENTER A NUMERIC VALUE: ")
             sn = int(selection)
-            print("that worked?")
             if sn == snq:
                 return "saveandquit"
             if sn == q:
@@ -23,7 +22,7 @@ def choiceMenu(choices, message):
             goodselection = True
         except:
             print("PLEASE SELECT A SHOWN NUMERIC VALUE")
-    return choice, (sn-1)
+    return choice, sn
 
 def enterText(message):
     goodInput = False
