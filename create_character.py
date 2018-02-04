@@ -69,6 +69,12 @@ def setRaceManual(character):
                         char["manualState"] = "alignment"
                 elif char["manualState"] == "alignment":
                     char["alignment"], value = utils.choiceMenu(alignments, "ENTER YOUR ALIGNMENT")
+                    lastState = "alignment"
+                    char["manualState"] = "proficiency"
+                elif char["manualState"] == "proficiency":
+                    if char["starting_proficiency_options"]:
+                        char, value = chooseProficiencies(char, rjson)
+
                 elif char["manualState"] == "finish":
                     print("we did it!")
                     value = True
@@ -82,13 +88,21 @@ def setRaceManual(character):
 
         char["manualState"] = lastState
 
+def chooseProficiencies(character, rjson):
+    char = character
+    pjson = rjson["starting_proficiency_options"]["from"]
+    profs = []
+    for p in pjson:
+        profs.append(str(p["name"]))
+    choose = int(rjson["starting_proficiency_options"]["choose"])
+    char, value = utils.chooseMultiStepChar(char, "proficiencies", profs, choose, "SELECT PROFICIENCIES")
+    return char, value
+
+
 def chooseLanguages(character, rjson) :
     char = character
-    print("we got options")
     ljson = rjson["language_options"]["from"]
     if str(ljson[0]["name"]) == "Any":
-        print("We got all the options")
-        print("any")
         l = requests.get("http://www.dnd5eapi.co/api/languages")
         lj = l.json()
         ljson = lj["results"]
@@ -96,18 +110,8 @@ def chooseLanguages(character, rjson) :
     for lang in ljson:
         languages.append(str(lang["name"]))
     choose = int(rjson["language_options"]["choose"])
-    print("this is choose! ")
-    print(str(choose))
-    print("this is choose plus one")
-    print(str(choose + 1))
-    for i in range(0, choose):
-        print("fucking")
-        print("we got this")
-        print(choose)
-        choice, value = utils.choiceMenu(languages, "choose a language:" + str(i+1) + "/" + str(choose))
-        char["languages"].append(choice)
-    print("CHOOSE LANGUAGES FINISHED")
-    return char, "done"
+    char, value = utils.chooseMultiStepChar(char, "languages", languages, choose, "CHOOSE LANGUAGES")
+    return char, value
 
                 
         

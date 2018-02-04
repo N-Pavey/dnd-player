@@ -42,3 +42,12 @@ def enterText(message):
             print("good age")
             goodInput = True
     return userInput.strip()
+
+def chooseMultiStepChar(character, attribute, choices, rounds, message):
+    char = character
+    i = 0
+    value = ""
+    while i<rounds and value != "quit" and value != "saveandquit":
+        selection, value = choiceMenu(choices, message + ": " + str(i+1) + "/" + str(rounds))
+        char[attribute].append(selection)
+    return char, value
