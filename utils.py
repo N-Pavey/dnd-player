@@ -33,15 +33,15 @@ def enterText(message):
         print("2: QUIT")
         userInput = raw_input("ENTER CHOICE: ")
         if userInput.strip() == "1":
-            return  "saveandquit"
+            return  userInput.strip(), "saveandquit"
         if userInput.strip() == "2":
-            return "quit"
+            return userInput.strip(), "quit"
         if userInput.strip() == "":
             print("PLEASE ENTER A VALUE")
         else:
             print("good age")
             goodInput = True
-    return userInput.strip()
+    return userInput.strip(), "good"
 
 def chooseMultiStepChar(character, attribute, choices, rounds, message):
     char = character
@@ -50,4 +50,5 @@ def chooseMultiStepChar(character, attribute, choices, rounds, message):
     while i<rounds and value != "quit" and value != "saveandquit":
         selection, value = choiceMenu(choices, message + ": " + str(i+1) + "/" + str(rounds))
         char[attribute].append(selection)
+        i+=1
     return char, value

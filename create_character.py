@@ -23,7 +23,7 @@ def race(character):
     for item in rjson["results"]:
         races.append(item["name"])
     race, index = utils.choiceMenu(races, "CHOOSE YOUR RACE")
-    print race
+    print(race)
     if race in races:
         char["race"] = race
         char["raceindex"] = index
@@ -36,7 +36,12 @@ def race(character):
             return char, "saveandquit"
         else:
             char, success = setRaceManual(char)
-            print("why am i printing this 18")
+            if success == True:
+                print("success is true")
+                return char, success
+            else:
+                print("success is not true")
+                return char, success
     else:
         return char, race
 
@@ -57,30 +62,32 @@ def setRaceManual(character):
         lastState = ""
         try:
             while value != "saveandquit" and value != "quit" and value != True:
+                print("NOTHER STEP")
                 if char["manualState"] == "begin":
                     char["age"], value = utils.enterText("ENTER YOUR AGE")
                     lastState = "begin"
                     char["manualState"] = "language"
                 elif char["manualState"] == "language":
-                    if rjson["language_options"]:
+                    if "language_options" in rjson.keys():
                         char, value = chooseLanguages(char, rjson)
-                        print(char)
-                        lastState = "language"
-                        char["manualState"] = "alignment"
+                    lastState = "language"
+                    char["manualState"] = "alignment"
                 elif char["manualState"] == "alignment":
                     char["alignment"], value = utils.choiceMenu(alignments, "ENTER YOUR ALIGNMENT")
                     lastState = "alignment"
                     char["manualState"] = "proficiency"
                 elif char["manualState"] == "proficiency":
-                    if char["starting_proficiency_options"]:
+                    if "starting_proficiency_options" in rjson.keys():
                         char, value = chooseProficiencies(char, rjson)
-
+                    lastState = "proficiency"
+                    char["manualState"] = "finish"
                 elif char["manualState"] == "finish":
                     print("we did it!")
+                    lastState = "finish"
                     value = True
             print("out of loop")
             char["manualState"] = lastState
-            return char, True
+            return char, value
         except Exception as e:
             print(e)
 
@@ -89,6 +96,7 @@ def setRaceManual(character):
         char["manualState"] = lastState
 
 def chooseProficiencies(character, rjson):
+    print("Starting choose proficiencies")
     char = character
     pjson = rjson["starting_proficiency_options"]["from"]
     profs = []
@@ -99,7 +107,8 @@ def chooseProficiencies(character, rjson):
     return char, value
 
 
-def chooseLanguages(character, rjson) :
+def chooseLanguages(character, rjson):
+    print("starting choose languages")
     char = character
     ljson = rjson["language_options"]["from"]
     if str(ljson[0]["name"]) == "Any":
@@ -202,6 +211,8 @@ def start():
         except Exception as e:
             print("EXCEPTION")
             print(e)
+    print("created character")
+    print(character)
 
 
 
