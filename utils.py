@@ -15,9 +15,9 @@ def choiceMenu(choices, message):
             selection = input("ENTER A NUMERIC VALUE: ")
             sn = int(selection)
             if sn == snq:
-                return "saveandquit"
+                return "saveandquit", "saveandquit"
             if sn == q:
-                return "quit"
+                return "quit", "quit"
             choice = str(choices[sn-1])
             goodselection = True
         except:
@@ -39,5 +39,6 @@ def enterText(message):
         if userInput.strip() == "":
             print("PLEASE ENTER A VALUE")
         else:
+            print("good age")
             goodInput = True
     return userInput.strip()

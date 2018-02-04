@@ -2,6 +2,7 @@ import utils
 import requests
 
 abilitiyScores = ("strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma")
+alignments = ("Lawful Good", "Neutral Good", "Chaotic Good", "Lawful Neutral", "Neutral", "Chaotic neutral", "Lawful Evil", "Neutral Evil", "Chaotic Evil")
 
 
 
@@ -28,17 +29,21 @@ def race(character):
         char["raceindex"] = index
         print(char)
         char, success = setRaceAuto(char)
+        print("this is your character after auto bruh")
+        print(char)
         if success != True:
             print("failed race auto set. Saving and quitting")
             return char, "saveandquit"
         else:
             char, success = setRaceManual(char)
+            print("why am i printing this 18")
     else:
         return char, race
 
 def setRaceManual(character):
     print("setRaceManual")
     char = character
+    print(char)
     char["state"] = "setRaceManual"
     url = "http://dnd5eapi.co/api/races/" + str(char["raceindex"])
     r = requests.get(url)
@@ -50,22 +55,59 @@ def setRaceManual(character):
         value = ""
         char["manualState"] = "begin"
         lastState = ""
-        while value != "saveandquit" and value != "quit":
-            if char["manualState"] == "begin":
-                char["age"], value = utils.enterText("ENTER YOUR AGE")
-                lastState = "begin"
-                char["manualState"] = "language"
-            if char["manualState"] == "language":
-                if rjson["language_options"]:
-                    ljson = rjson["language_options"]["from"]
-                    if str(ljson[0]["name"]) == "Any":
-                        l = requests.get("http://www.dnd5eapi.co/api/languages")
-                        lj = l.json()
-                        ljson = lj["results"]
-                    languages = []
+        try:
+            while value != "saveandquit" and value != "quit" and value != True:
+                if char["manualState"] == "begin":
+                    char["age"], value = utils.enterText("ENTER YOUR AGE")
+                    lastState = "begin"
+                    char["manualState"] = "language"
+                elif char["manualState"] == "language":
+                    if rjson["language_options"]:
+                        char, value = chooseLanguages(char, rjson)
+                        print(char)
+                        lastState = "language"
+                        char["manualState"] = "alignment"
+                elif char["manualState"] == "alignment":
+                    char["alignment"], value = utils.choiceMenu(alignments, "ENTER YOUR ALIGNMENT")
+                elif char["manualState"] == "finish":
+                    print("we did it!")
+                    value = True
+            print("out of loop")
+            char["manualState"] = lastState
+            return char, True
+        except Exception as e:
+            print(e)
+
 
 
         char["manualState"] = lastState
+
+def chooseLanguages(character, rjson) :
+    char = character
+    print("we got options")
+    ljson = rjson["language_options"]["from"]
+    if str(ljson[0]["name"]) == "Any":
+        print("We got all the options")
+        print("any")
+        l = requests.get("http://www.dnd5eapi.co/api/languages")
+        lj = l.json()
+        ljson = lj["results"]
+    languages = []
+    for lang in ljson:
+        languages.append(str(lang["name"]))
+    choose = int(rjson["language_options"]["choose"])
+    print("this is choose! ")
+    print(str(choose))
+    print("this is choose plus one")
+    print(str(choose + 1))
+    for i in range(0, choose):
+        print("fucking")
+        print("we got this")
+        print(choose)
+        choice, value = utils.choiceMenu(languages, "choose a language:" + str(i+1) + "/" + str(choose))
+        char["languages"].append(choice)
+    print("CHOOSE LANGUAGES FINISHED")
+    return char, "done"
 
                 
         
@@ -130,7 +172,7 @@ stages = {
     "name": name,
     "race": race,
     "setRaceAuto": setRaceAuto,
-    "setRaceManual": setRaceManual
+    "setRaceManual": setRaceManual,
     "class": addClass,
     "abilities": abilities,
     "equipment": equipment
