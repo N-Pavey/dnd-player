@@ -33,6 +33,17 @@ def setRaceManual(character):
     char, value = setRace.setRaceManual(char)
     return char, value
 
+def setSubraceAuto(character):
+    print("set Subrace Auto")
+    char = character
+    char, value = setSubrace.setSubraceAuto(char)
+    return char, value
+
+def subrace(character):
+    print("subrace")
+    char = character
+    char, value = setSubrace.subrace(char)
+    return char, value
 
 def addClass(character):
     print("add class")
@@ -48,13 +59,15 @@ def equipment(character):
 
 
 
-states = ("name", "race", "setRaceAuto", "setRaceManual", "class", "abilities", "equipment")
+states = ("name", "race", "setRaceAuto", "setRaceManual", "subrace", "setSubraceAuto" "class", "abilities", "equipment")
     
 stages = {
     "name": name,
     "race": race,
     "setRaceAuto": setRaceAuto,
     "setRaceManual": setRaceManual,
+    "subrace": subrace,
+    "setSubraceAuto": settSubraceAuto,
     "class": addClass,
     "abilities": abilities,
     "equipment": equipment

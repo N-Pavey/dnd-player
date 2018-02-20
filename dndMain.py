@@ -28,6 +28,7 @@ def main():
 	print("-------------------------------")
 	print("+++++++++++++++++++++++++++++++")
 	print("")
+	print "shiiiiit"
 	mainMenu()
 	return
 

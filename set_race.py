@@ -74,6 +74,9 @@ def setRaceManual(character):
 
 
 
+
+
+
         char["manualState"] = lastState
 
 
