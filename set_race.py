@@ -92,9 +92,12 @@ def setRaceAuto(character):
         print("Api race {} does not match choosen race {}. Saving and quitting").format(str(rjson["name"]), str(char["race"]) )
         return char, False
     else:
-        char["abilities"] = {}
+        char["abilities"] = []
         for i in range (0, len(abilitiyScores)):
-            char["abilities"][abilitiyScores[i]] = rjson["ability_bonuses"][i]
+            ability = {}
+            ability["name"] = abilitiyScores[i]
+            ability["score"] = rjson["ability_bonuses"][i]
+            char["abilities"].append(ability)
         char["size"] = str(rjson["size"])
         char["speed"] = str(rjson["speed"])
         char["proficiencies"] = []

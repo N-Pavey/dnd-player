@@ -1,6 +1,7 @@
 import utils
 import requests
 import set_race as setRace
+import subrace as setSubrace
 
 
 
@@ -39,6 +40,12 @@ def setSubraceAuto(character):
     char, value = setSubrace.setSubraceAuto(char)
     return char, value
 
+def setSubraceManual(character):
+    print("set Subrace Auto")
+    char = character
+    char, value = setSubrace.setSubraceManual(char)
+    return char, value
+
 def subrace(character):
     print("subrace")
     char = character
@@ -59,7 +66,7 @@ def equipment(character):
 
 
 
-states = ("name", "race", "setRaceAuto", "setRaceManual", "subrace", "setSubraceAuto" "class", "abilities", "equipment")
+states = ("name", "race", "setRaceAuto", "setRaceManual", "subrace", "setSubraceAuto", "setSubraceManual" "class", "abilities", "equipment")
     
 stages = {
     "name": name,
@@ -67,7 +74,8 @@ stages = {
     "setRaceAuto": setRaceAuto,
     "setRaceManual": setRaceManual,
     "subrace": subrace,
-    "setSubraceAuto": settSubraceAuto,
+    "setSubraceAuto": setSubraceAuto,
+    "setSubraceManual": setSubraceManual,
     "class": addClass,
     "abilities": abilities,
     "equipment": equipment

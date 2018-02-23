@@ -6,7 +6,7 @@ def subrace(character):
     char = character
     char["state"] = "subrace"
     raceIndex = char["raceindex"]
-    raceUrl = "http://dnd5eapi.co/api/races/" + raceIndex
+    raceUrl = "http://dnd5eapi.co/api/races/" + str(raceIndex)
     r = requests.get(raceUrl)
     race = r.json()
     subraces = race["subraces"]
@@ -41,7 +41,7 @@ def setSubraceAuto(character):
         currentAbilities = char["abilities"]
         abilityBoneses = subrace["ability_bonuses"]
         for a in currentAbilities:
-            a = a + abilityBoneses[currentAbilities.index(a)]
+            a["score"] = a["score"] + abilityBoneses[currentAbilities.index(a)]
         char["abilities"] = currentAbilities
         profs = subrace["starting_proficiencies"]
         charProfs = char["proficiencies"]
@@ -62,7 +62,7 @@ def setSubraceAuto(character):
     else:
         return char, None
 
-def setSubraceMnual(character):
+def setSubraceManual(character):
     print("set subrace manual")
     char = character
     char["state"] = "subracemanual"
