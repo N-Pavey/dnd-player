@@ -12,6 +12,17 @@ def chooseProficiencies(character, rjson):
     char, value = utils.chooseMultiStepChar(char, "proficiencies", profs, choose, "SELECT PROFICIENCIES")
     return char, value
 
+def chooseTraits(character, rjson):
+    print("Starting choose Traits")
+    char = character
+    tjson = rjson["racial_trait_options"]["from"]
+    traits = []
+    for t in tjson:
+        traits.append(str(t["name"]))
+    choose = int(rjson["racial_trait_options"]["choose"])
+    char, value = utils.chooseMultiStepChar(char, "traits", traits, choose, "SELECT RACIAL TRAITS")
+    return char, value
+
 
 def chooseLanguages(character, rjson):
     print("starting choose languages")

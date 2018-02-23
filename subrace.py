@@ -1,8 +1,10 @@
 import requests
 import utils
+import create_char_shared as shared
 
 def subrace(character):
     char = character
+    char["state"] = "subrace"
     raceIndex = char["raceindex"]
     raceUrl = "http://dnd5eapi.co/api/races/" + raceIndex
     r = requests.get(raceUrl)
@@ -11,7 +13,7 @@ def subrace(character):
     subraceList = []
     if len(subraces) > 0:
         for subrace in subraces:
-            subraceList.append(subrace["name"])
+            subraceList.append(str(subrace["name"]))
         subraceChoice, value = utils.choiceMenu(subraceList, "Choose your subrace")
         if value != "quit" and value != "saveandquit":
             char["subrace"] = subraceChoice
@@ -28,6 +30,7 @@ def subrace(character):
 
 def setSubraceAuto(character):
     char = character
+    char["state"] = "subraceauto"
     if char["subrace"] != None:
         url = "http://dnd5eapi.co/api/subraces/" + char["subraceindex"]
         r = requests.get(url)
@@ -55,12 +58,51 @@ def setSubraceAuto(character):
         for l in langs:
             if str(l["name"]) not in charLangs:
                 charLangs.append(str(l["name"]))
-        
-        
-            
-        
+        return char, None   
     else:
         return char, None
 
 def setSubraceMnual(character):
+    print("set subrace manual")
+    char = character
+    char["state"] = "subracemanual"
+    if char["subrace"] != None:
+        url = "http://dnd5eapi.co/api/races/" + str(char["raceindex"])
+        r = requests.get(url)
+        subrace = r.json()
+        if str(rjson["name"]) != str(char["race"]):
+            print("Api race {} does not match choosen race {}. Saving and quitting").format(str(rjson["name"]), str(char["race"]) )
+            return char, False
+        else:
+            value = ""
+        char["manualState"] = "language"
+        lastState = ""
+        try:
+            while value != "saveandquit" and value != "quit" and value != True:
+                print("NOTHER STEP")
+                if char["manualState"] == "language":
+                    if "language_options" in subrace.keys():
+                        char, value = shared.chooseLanguages(char, subrace)
+                    lastState = "language"
+                    char["manualState"] = "proficiency"
+                elif char["manualState"] == "proficiency":
+                    if "starting_proficiency_options" in subrace.keys():
+                        char, value = shared.chooseProficiencies(char, subrace)
+                    lastState = "proficiency"
+                    char["manualState"] = "traits"
+                elif char["manualState"] == "traits":
+                    if "racial_trait_options" in subrace.keys():
+                        char, value = shared.chooseTraits(char, subrace)
+                    lastState = "traits"
+                    char["manualState"] = "finish"
+                elif char["manualState"] == "finish":
+                    print("we did it!")
+                    lastState = "finish"
+                    value = True
+            print("out of loop")
+            char["manualState"] = lastState
+            return char, value
+        except Exception as e:
+            print(e)
+
 
