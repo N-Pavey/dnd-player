@@ -39,6 +39,24 @@ def setSubraceAuto(character):
         abilityBoneses = subrace["ability_bonuses"]
         for a in currentAbilities:
             a = a + abilityBoneses[currentAbilities.index(a)]
+        char["abilities"] = currentAbilities
+        profs = subrace["starting_proficiencies"]
+        charProfs = char["proficiencies"]
+        for p in profs:
+            if str(p["name"]) not in charProfs:
+                charProfs.append(str(p["name"]))
+        traits = subrace["racial_traits"]
+        charTraits = char["traits"]
+        for t in traits:
+            if str(t["name"]) not in charTraits:
+                charTraits.append(str(t["name"]))
+        langs = subrace["languages"]
+        charLangs = char["languages"]
+        for l in langs:
+            if str(l["name"]) not in charLangs:
+                charLangs.append(str(l["name"]))
+        
+        
             
         
     else:
